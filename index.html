@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>FC3 dashboard</title><style>
+body{--page:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;
+--base:#c3c2b7;--ring:rgba(11,11,11,.10);--series:#2a78d6;--good:#006300;--bad:#d03b3b;color-scheme:light}
+@media (prefers-color-scheme:dark){body{--page:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;
+--muted:#898781;--grid:#2c2c2a;--base:#383835;--ring:rgba(255,255,255,.10);--series:#3987e5;--good:#0ca30c;
+--bad:#f07474;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:32px 0 10px}
+.spec,.meta{color:var(--ink2);margin:0}.meta{font-size:13px;margin-top:6px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:22px}
+.tile{background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:12px 14px}
+.tile .label{color:var(--ink2);font-size:13px}.tile .value{font-size:24px;font-weight:600;margin-top:2px}
+.tile .sub{color:var(--ink2);font-size:12px;margin-top:2px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+figure.chart{position:relative;margin:0;background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:12px}
+figcaption{font-weight:600;font-size:14px;margin-bottom:6px}
+svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.grid,.base,.line,.dot,.xhair{vector-effect:non-scaling-stroke}
+.grid{stroke:var(--grid);stroke-width:1}.base{stroke:var(--base);stroke-width:1}
+.tick{fill:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.line{fill:none;stroke:var(--series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.dot{fill:var(--series);stroke:var(--surface);stroke-width:2}.xhair{stroke:var(--base);stroke-width:1}
+.endlabel{fill:var(--ink);font-size:13px;font-weight:600}
+.tip{position:absolute;max-width:320px;background:var(--surface);color:var(--ink);border:1px solid var(--ring);
+border-radius:8px;padding:6px 8px;font-size:12px;box-shadow:0 2px 10px rgba(0,0,0,.12);pointer-events:none}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--ring);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--grid)}
+th{color:var(--ink2);font-weight:600;font-size:12.5px}tbody tr:last-child td{border-bottom:0}
+.n{text-align:right;font-variant-numeric:tabular-nums}.pos{color:var(--good)}.neg{color:var(--bad)}
+.empty{color:var(--ink2);background:var(--surface);border:1px dashed var(--base);border-radius:10px;padding:16px;margin:0}
+footer{color:var(--ink2);font-size:12.5px;margin-top:36px}footer p{margin:4px 0}
+</style></head><body><main><h1>FC3 dashboard</h1><p class="spec">9-model calibrated committee · committee side · blend ≥ 0.520 · flat stakes · EPL · La Liga · Serie A · Bundesliga · Ligue 1</p><p class="meta">Updated 2026-09-26 04:12 UTC · pipeline run #1</p><p class="empty" style="margin-top:22px">No bets logged yet. The ledger starts with the first pipeline run that finds fixtures in the five leagues clearing the blend bar.</p><footer><p>★ = blend ≥ 0.530 (display only). Line (home) is the home handicap; Backed is the handicap on the picked team. Odds are the best price available when the pick was logged; place at those odds or better.</p><p>CLV (line move) = fair closing cover probability at the bet's line minus the consensus no-vig probability when logged. CLV+ = fair closing probability minus 1/odds taken. Close benchmark = the closing book used (Pinnacle, else B365, else market average).</p><p>Win rate counts half-wins as wins; P/L and ROI are in units of a flat 1u stake.</p></footer></main><script>
+document.querySelectorAll('svg[data-points]').forEach(function (svg) {
+  var pts = JSON.parse(svg.dataset.points), fig = svg.parentNode, tip = fig.querySelector('.tip'),
+      xh = svg.querySelector('.xhair'), hl = svg.querySelector('.hl'), vb = svg.viewBox.baseVal;
+  function show(e) {
+    var r = svg.getBoundingClientRect(), x = (e.clientX - r.left) * vb.width / r.width, best = pts[0];
+    pts.forEach(function (p) { if (Math.abs(p[0] - x) < Math.abs(best[0] - x)) best = p; });
+    xh.setAttribute('x1', best[0]); xh.setAttribute('x2', best[0]); xh.setAttribute('visibility', 'visible');
+    hl.setAttribute('cx', best[0]); hl.setAttribute('cy', best[1]); hl.setAttribute('visibility', 'visible');
+    tip.textContent = best[2]; tip.hidden = false;
+    var f = fig.getBoundingClientRect(), k = r.width / vb.width, left = r.left - f.left + best[0] * k + 12;
+    tip.style.left = Math.max(4, Math.min(left, fig.clientWidth - tip.offsetWidth - 4)) + 'px';
+    tip.style.top = Math.max(4, r.top - f.top + best[1] * k - tip.offsetHeight - 10) + 'px';
+  }
+  svg.addEventListener('pointermove', show);
+  svg.addEventListener('pointerdown', show);
+  svg.addEventListener('pointerleave', function () {
+    tip.hidden = true; xh.setAttribute('visibility', 'hidden'); hl.setAttribute('visibility', 'hidden');
+  });
+});
+</script></body></html>
