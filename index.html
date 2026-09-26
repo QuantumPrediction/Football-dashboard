@@ -1,56 +1,58 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>FC3 dashboard</title><style>
-body{--page:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;
---base:#c3c2b7;--ring:rgba(11,11,11,.10);--series:#2a78d6;--good:#006300;--bad:#d03b3b;color-scheme:light}
-@media (prefers-color-scheme:dark){body{--page:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;
---muted:#898781;--grid:#2c2c2a;--base:#383835;--ring:rgba(255,255,255,.10);--series:#3987e5;--good:#0ca30c;
---bad:#f07474;color-scheme:dark}}
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex'><title>QuantumPrediction · FC3 — Football Signals</title><style>
+:root{--bg:#0b0f17;--panel:#121826;--panel2:#0f1522;--line:#232c3f;--txt:#e8eef7;
+--mut:#94a3b8;--acc:#5eb1ff;--gold:#f0c419;--win:#34d399;--loss:#f87171;--push:#94a3b8}
 *{box-sizing:border-box}
-body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
-h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:32px 0 10px}
-.spec,.meta{color:var(--ink2);margin:0}.meta{font-size:13px;margin-top:6px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:22px}
-.tile{background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:12px 14px}
-.tile .label{color:var(--ink2);font-size:13px}.tile .value{font-size:24px;font-weight:600;margin-top:2px}
-.tile .sub{color:var(--ink2);font-size:12px;margin-top:2px}
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-figure.chart{position:relative;margin:0;background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:12px}
-figcaption{font-weight:600;font-size:14px;margin-bottom:6px}
-svg{display:block;width:100%;height:auto;touch-action:pan-y}
-.grid,.base,.line,.dot,.xhair{vector-effect:non-scaling-stroke}
-.grid{stroke:var(--grid);stroke-width:1}.base{stroke:var(--base);stroke-width:1}
-.tick{fill:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
-.line{fill:none;stroke:var(--series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-.dot{fill:var(--series);stroke:var(--surface);stroke-width:2}.xhair{stroke:var(--base);stroke-width:1}
-.endlabel{fill:var(--ink);font-size:13px;font-weight:600}
-.tip{position:absolute;max-width:320px;background:var(--surface);color:var(--ink);border:1px solid var(--ring);
-border-radius:8px;padding:6px 8px;font-size:12px;box-shadow:0 2px 10px rgba(0,0,0,.12);pointer-events:none}
-.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--ring);border-radius:10px}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#16233c 0%,var(--bg) 55%);
+color:var(--txt);font:15px/1.65 -apple-system,'Segoe UI','Noto Sans TC','PingFang TC',sans-serif}
+.wrap{max-width:1020px;margin:0 auto;padding:28px 20px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:26px;letter-spacing:.3px}
+.brand h1 b{color:var(--acc)}
+.brand .tag{color:var(--mut);font-size:13px;margin-top:4px}
+.lang{border:1px solid var(--line);border-radius:20px;background:var(--panel);
+color:var(--txt);padding:7px 14px;cursor:pointer;font-size:13px}
+.integrity{margin:16px 0 6px;color:var(--mut);font-size:12.5px;letter-spacing:.4px;
+text-transform:uppercase}
+.integrity b{color:var(--gold);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0 8px}
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+border-radius:14px;padding:14px 16px}
+.stat .v{font-size:24px;font-weight:700;color:var(--acc)}
+.stat .k{font-size:12px;color:var(--mut);margin-top:2px}
+h2{font-size:17px;margin:30px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+border-radius:14px;padding:14px}
+svg{width:100%;height:200px;display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+border-radius:14px;padding:13px 15px}
+.c-top{display:flex;justify-content:space-between;color:var(--mut);font-size:12px}
+.c-match{font-weight:600;margin:7px 0 6px;font-size:14.5px}
+.c-pick{font-size:14px} .c-pick b{color:var(--txt)}
+.c-line{color:var(--acc);margin-left:8px} .c-odds{color:var(--mut);margin-left:8px}
+.star{color:var(--gold);margin-left:6px}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
-th,td{padding:7px 10px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--grid)}
-th{color:var(--ink2);font-weight:600;font-size:12.5px}tbody tr:last-child td{border-bottom:0}
-.n{text-align:right;font-variant-numeric:tabular-nums}.pos{color:var(--good)}.neg{color:var(--bad)}
-th.star,td.star{text-align:center}
-.empty{color:var(--ink2);background:var(--surface);border:1px dashed var(--base);border-radius:10px;padding:16px;margin:0}
-footer{color:var(--ink2);font-size:12.5px;margin-top:36px}footer p{margin:4px 0}
-</style></head><body><main><h1>FC3 dashboard</h1><p class="spec">9-model calibrated committee · committee side · flat stakes · EPL · La Liga · Serie A · Bundesliga · Ligue 1</p><p class="meta">Updated 2026-09-26 10:20 UTC · pipeline run #4</p><p class="empty" style="margin-top:22px">No bets logged yet. The ledger starts with the first pipeline run that logs a pick in the five leagues.</p><footer><p>★ = premium tier (display only). Line (home) is the home handicap; Backed is the handicap on the picked team. Odds are the best price available when the pick was logged; place at those odds or better.</p><p>CLV (line move) = fair closing cover probability at the bet's line minus the consensus no-vig probability when logged. CLV+ = fair closing probability minus 1/odds taken. Close benchmark = the closing book used (Pinnacle, else B365, else market average).</p><p>W-L-P and win rate count a half-win as a win and a half-loss as a loss; P/L and ROI are in units of a flat 1u stake.</p></footer></main><script>
-document.querySelectorAll('svg[data-points]').forEach(function (svg) {
-  var pts = JSON.parse(svg.dataset.points), fig = svg.parentNode, tip = fig.querySelector('.tip'),
-      xh = svg.querySelector('.xhair'), hl = svg.querySelector('.hl'), vb = svg.viewBox.baseVal;
-  function show(e) {
-    var r = svg.getBoundingClientRect(), x = (e.clientX - r.left) * vb.width / r.width, best = pts[0];
-    pts.forEach(function (p) { if (Math.abs(p[0] - x) < Math.abs(best[0] - x)) best = p; });
-    xh.setAttribute('x1', best[0]); xh.setAttribute('x2', best[0]); xh.setAttribute('visibility', 'visible');
-    hl.setAttribute('cx', best[0]); hl.setAttribute('cy', best[1]); hl.setAttribute('visibility', 'visible');
-    tip.textContent = best[2]; tip.hidden = false;
-    var f = fig.getBoundingClientRect(), k = r.width / vb.width, left = r.left - f.left + best[0] * k + 12;
-    tip.style.left = Math.max(4, Math.min(left, fig.clientWidth - tip.offsetWidth - 4)) + 'px';
-    tip.style.top = Math.max(4, r.top - f.top + best[1] * k - tip.offsetHeight - 10) + 'px';
-  }
-  svg.addEventListener('pointermove', show);
-  svg.addEventListener('pointerdown', show);
-  svg.addEventListener('pointerleave', function () {
-    tip.hidden = true; xh.setAttribute('visibility', 'hidden'); hl.setAttribute('visibility', 'hidden');
-  });
-});
+th{text-align:left;color:var(--mut);font-weight:600;padding:7px 9px;font-size:12px}
+td{padding:7px 9px;border-top:1px solid var(--line)}
+.chip{padding:2px 9px;border-radius:12px;font-weight:600;font-size:12.5px}
+.chip.win{background:rgba(52,211,153,.13);color:var(--win)}
+.chip.loss{background:rgba(248,113,113,.12);color:var(--loss)}
+.chip.push{background:rgba(148,163,184,.14);color:var(--push)}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.how .step{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.how .n{color:var(--gold);font-weight:700;font-size:13px}
+.how h3{margin:6px 0 6px;font-size:14.5px}
+.how p{margin:0;color:var(--mut);font-size:13px}
+.empty{color:var(--mut);padding:22px 8px;text-align:center;font-size:14px}
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
+color:var(--mut);font-size:12px;line-height:1.7}
+@media(max-width:640px){.brand h1{font-size:22px} th:nth-child(2),td:nth-child(2){display:none}}
+</style></head><body><div class='wrap'><header><div class='brand'><h1>Quantum<b>Prediction</b> · FC3</h1><div class='tag' data-en="Systematic Asian Handicap signals · Top-5 European leagues" data-zh="系統化亞洲讓球盤訊號 · 歐洲五大聯賽">Systematic Asian Handicap signals · Top-5 European leagues</div></div><button class='lang' id='langBtn' onclick='tg()'>中文</button></header><div class='integrity' data-en="&lt;b&gt;Verified forward record&lt;/b&gt; — picks published pre-kickoff · never edited · closing-line audited" data-zh="&lt;b&gt;可驗證的前瞻紀錄&lt;/b&gt; — 開賽前公佈 · 永不修改 · 以收盤線審計"><b>Verified forward record</b> — picks published pre-kickoff · never edited · closing-line audited</div><div class='stats'><div class='stat'><div class='v'>0-0-0</div><div class='k' data-en="Record (W-L-P)" data-zh="戰績(勝-負-和)">Record (W-L-P)</div></div><div class='stat'><div class='v'>—</div><div class='k' data-en="Win rate" data-zh="勝率">Win rate</div></div><div class='stat'><div class='v'>—</div><div class='k' data-en="ROI per pick" data-zh="每注回報率">ROI per pick</div></div><div class='stat'><div class='v'>—</div><div class='k' data-en="Avg. closing-line value" data-zh="平均收盤線價值">Avg. closing-line value</div></div><div class='stat'><div class='v'>0</div><div class='k' data-en="Signals published" data-zh="已公佈訊號">Signals published</div></div></div><h2 data-en="Performance" data-zh="績效走勢">Performance</h2><div class='panel'><div class='empty' data-en="Equity curve appears after the first settled picks." data-zh="首批注項結算後,此處顯示權益曲線。">Equity curve appears after the first settled picks.</div></div><h2 data-en="Open picks — published before kick-off" data-zh="待賽訊號 — 開賽前已公佈">Open picks — published before kick-off</h2><div class='empty' data-en="No open picks right now — new signals publish here before kick-off." data-zh="目前沒有待賽訊號——新訊號會在開賽前於此公佈。">No open picks right now — new signals publish here before kick-off.</div><h2 data-en="Recent settled results" data-zh="近期已結算結果">Recent settled results</h2><div class='panel' style='overflow-x:auto'><div class='empty' data-en="Settled results will appear here after the first matches." data-zh="首批賽事完場結算後,結果會顯示於此。">Settled results will appear here after the first matches.</div></div><h2 data-en="How it works" data-zh="運作方式">How it works</h2><div class='how'><div class='step'><div class='n'>01</div><h3 data-en="Multi-model consensus" data-zh="多模型共識">Multi-model consensus</h3><p data-en="An ensemble of nine independent statistical models, retrained on two decades of match and market data, estimates each outcome." data-zh="由九個獨立統計模型組成的委員會,以二十年賽事與市場數據持續重訓,對每場賽事作出估計。">An ensemble of nine independent statistical models, retrained on two decades of match and market data, estimates each outcome.</p></div><div class='step'><div class='n'>02</div><h3 data-en="Market-confirmed selection" data-zh="市場確認篩選">Market-confirmed selection</h3><p data-en="Signals are taken only where model consensus and market pricing align at high confidence. ★ marks the highest-conviction tier." data-zh="僅在模型共識與市場定價高度一致時發出訊號;★ 代表最高把握層級。">Signals are taken only where model consensus and market pricing align at high confidence. ★ marks the highest-conviction tier.</p></div><div class='step'><div class='n'>03</div><h3 data-en="Discipline &amp; audit" data-zh="紀律與審計">Discipline & audit</h3><p data-en="Flat staking, an append-only ledger, and closing-line auditing — the record above cannot be rewritten." data-zh="平注紀律、只增不改的帳本、收盤線審計——以上紀錄不可改寫。">Flat staking, an append-only ledger, and closing-line auditing — the record above cannot be rewritten.</p></div></div><footer><div data-en="Research showcase, not betting or investment advice. Methodology and parameters are proprietary; this page shows signals and outcomes only. Sports betting involves substantial risk of loss." data-zh="本頁為研究展示,並非博彩或投資建議。方法與參數屬專有資訊,本頁僅展示訊號與結果。體育博彩涉及重大虧損風險。">Research showcase, not betting or investment advice. Methodology and parameters are proprietary; this page shows signals and outcomes only. Sports betting involves substantial risk of loss.</div><div style='margin-top:6px' data-en="Updated automatically once daily · results settle on the next update after matches complete · 2026-09-26 11:47 UTC" data-zh="每日自動更新一次 · 賽果於完場後的下一次更新結算 · 2026-09-26 11:47 UTC">Updated automatically once daily · results settle on the next update after matches complete · 2026-09-26 11:47 UTC</div></footer></div><script>
+var L='en';
+function ap(){document.querySelectorAll('[data-en]').forEach(function(e){
+  e.innerHTML=e.getAttribute('data-'+L)||'';});
+  document.getElementById('langBtn').textContent=(L==='en')?'中文':'EN';
+  document.documentElement.lang=(L==='en')?'en':'zh-Hant';}
+function tg(){L=(L==='en')?'zh':'en';ap();}
+ap();
 </script></body></html>
